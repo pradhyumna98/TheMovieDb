@@ -24,9 +24,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 RecyclerView nowShowingRV,topRatedRV,upComingRV;
 UpcomingMovie upcomingResponse;
+NowShowingMovie nowShowingResponse;
 ArrayList<Movie> upcomingMovies=new ArrayList<>();
-ShowMovieAdapter upComingAdapter;
-ProgressBar progressBar;
+ArrayList<Movie> nowShowingMovies=new ArrayList<>();
+ShowMovieAdapter upComingAdapter,nowShowingAdapter;
+ProgressBar progressBarUpcoming,progressBarNowShowing,progressBarTopRated;
 public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,15 @@ public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
         nowShowingRV=findViewById(R.id.NowShowing);
         topRatedRV=findViewById(R.id.TopRated);
         upComingRV=findViewById(R.id.UpComing);
-        progressBar=findViewById(R.id.progressBarUpComing);
+        progressBarUpcoming=findViewById(R.id.progressBarUpComing);
+        progressBarNowShowing=findViewById(R.id.progressBarNowShowing);
+        progressBarTopRated=findViewById(R.id.progressBarTopRated);
+        nowShowingAdapter=new ShowMovieAdapter(this, nowShowingMovies, new MoviesRowListener() {
+            @Override
+            public void onDownloadMoviesList(View view, int position) {
+
+            }
+        });
         upComingAdapter=new ShowMovieAdapter(this, upcomingMovies, new MoviesRowListener() {
             @Override
             public void onDownloadMoviesList(View view, int position) {
@@ -47,12 +57,13 @@ public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
         upComingRV.setAdapter(upComingAdapter);
         upComingRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         upComingRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
-        Retrofit retrofit=new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addConverterFactory(GsonConverterFactory.create()).build();
-        MovieDBService service =retrofit.create(MovieDBService.class);
-        Call<UpcomingMovie> call=service.getUpComingMovies(API_KEY);
-        call.enqueue(new Callback<UpcomingMovie>() {
+        upComingRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        nowShowingRV.setAdapter(nowShowingAdapter);
+        nowShowingRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        nowShowingRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
+        nowShowingRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        Call<UpcomingMovie> callUpcoming=ApiClient.getMovieDBService().getUpComingMovies(API_KEY);
+        callUpcoming.enqueue(new Callback<UpcomingMovie>() {
             @Override
             public void onResponse(Call<UpcomingMovie> call, Response<UpcomingMovie> response) {
                 upcomingResponse=response.body();
@@ -60,11 +71,28 @@ public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
                 upcomingMovies.addAll(upcomingResponse.results);
                 upComingAdapter.notifyDataSetChanged();
                 upComingRV.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBarUpcoming.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFailure(Call<UpcomingMovie> call, Throwable t) {
+
+            }
+        });
+        Call<NowShowingMovie> callNowShowing=ApiClient.getMovieDBService().getNowShowingMovies(API_KEY);
+        callNowShowing.enqueue(new Callback<NowShowingMovie>() {
+            @Override
+            public void onResponse(Call<NowShowingMovie> call, Response<NowShowingMovie> response) {
+                nowShowingResponse=response.body();
+                nowShowingMovies.clear();
+                nowShowingMovies.addAll(nowShowingResponse.results);
+                nowShowingAdapter.notifyDataSetChanged();
+                nowShowingRV.setVisibility(View.VISIBLE);
+                progressBarNowShowing.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onFailure(Call<NowShowingMovie> call, Throwable t) {
 
             }
         });
