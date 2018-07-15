@@ -25,9 +25,11 @@ public class MainActivity extends AppCompatActivity {
 RecyclerView nowShowingRV,topRatedRV,upComingRV;
 UpcomingMovie upcomingResponse;
 NowShowingMovie nowShowingResponse;
+TopRatedMovie topRatedResponse;
 ArrayList<Movie> upcomingMovies=new ArrayList<>();
 ArrayList<Movie> nowShowingMovies=new ArrayList<>();
-ShowMovieAdapter upComingAdapter,nowShowingAdapter;
+ArrayList<Movie> topRatedMovies=new ArrayList<>();
+ShowMovieAdapter upComingAdapter,nowShowingAdapter,topRatedAdapter;
 ProgressBar progressBarUpcoming,progressBarNowShowing,progressBarTopRated;
 public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
     @Override
@@ -54,6 +56,13 @@ public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
 
             }
         });
+        topRatedAdapter=new ShowMovieAdapter(this, topRatedMovies, new MoviesRowListener() {
+            @Override
+            public void onDownloadMoviesList(View view, int position) {
+
+            }
+        });
+
         upComingRV.setAdapter(upComingAdapter);
         upComingRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         upComingRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
@@ -62,6 +71,10 @@ public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
         nowShowingRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         nowShowingRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
         nowShowingRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        topRatedRV.setAdapter(topRatedAdapter);
+        topRatedRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        topRatedRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
+        topRatedRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         Call<UpcomingMovie> callUpcoming=ApiClient.getMovieDBService().getUpComingMovies(API_KEY);
         callUpcoming.enqueue(new Callback<UpcomingMovie>() {
             @Override
@@ -93,6 +106,23 @@ public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
 
             @Override
             public void onFailure(Call<NowShowingMovie> call, Throwable t) {
+
+            }
+        });
+        Call<TopRatedMovie> callTopRated=ApiClient.getMovieDBService().getTopRatedMovies(API_KEY);
+        callTopRated.enqueue(new Callback<TopRatedMovie>() {
+            @Override
+            public void onResponse(Call<TopRatedMovie> call, Response<TopRatedMovie> response) {
+                topRatedResponse=response.body();
+                topRatedMovies.clear();
+                topRatedMovies.addAll(topRatedResponse.results);
+                topRatedAdapter.notifyDataSetChanged();
+                topRatedRV.setVisibility(View.VISIBLE);
+                progressBarTopRated.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onFailure(Call<TopRatedMovie> call, Throwable t) {
 
             }
         });
