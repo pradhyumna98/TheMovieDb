@@ -4,20 +4,70 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-
+RecyclerView nowShowingRV,topRatedRV,upComingRV;
+UpcomingMovie upcomingResponse;
+ArrayList<Movie> upcomingMovies=new ArrayList<>();
+ShowMovieAdapter upComingAdapter;
+ProgressBar progressBar;
+public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        nowShowingRV=findViewById(R.id.NowShowing);
+        topRatedRV=findViewById(R.id.TopRated);
+        upComingRV=findViewById(R.id.UpComing);
+        progressBar=findViewById(R.id.progressBarUpComing);
+        upComingAdapter=new ShowMovieAdapter(this, upcomingMovies, new MoviesRowListener() {
+            @Override
+            public void onDownloadMoviesList(View view, int position) {
 
+            }
+        });
+        upComingRV.setAdapter(upComingAdapter);
+        upComingRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        upComingRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl("https://api.themoviedb.org/3/")
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        MovieDBService service =retrofit.create(MovieDBService.class);
+        Call<UpcomingMovie> call=service.getUpComingMovies(API_KEY);
+        call.enqueue(new Callback<UpcomingMovie>() {
+            @Override
+            public void onResponse(Call<UpcomingMovie> call, Response<UpcomingMovie> response) {
+                upcomingResponse=response.body();
+                upcomingMovies.clear();
+                upcomingMovies.addAll(upcomingResponse.results);
+                upComingAdapter.notifyDataSetChanged();
+                upComingRV.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onFailure(Call<UpcomingMovie> call, Throwable t) {
+
+            }
+        });
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
