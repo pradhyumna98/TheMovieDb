@@ -1,4 +1,8 @@
-package com.example.shubham.themoviedb;
+package com.example.shubham.themoviedb.Networking;
+
+import com.example.shubham.themoviedb.entities.NowShowingMovie;
+import com.example.shubham.themoviedb.entities.TopRatedMovie;
+import com.example.shubham.themoviedb.entities.UpcomingMovie;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

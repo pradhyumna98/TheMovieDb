@@ -1,5 +1,6 @@
-package com.example.shubham.themoviedb;
+package com.example.shubham.themoviedb.Activities;
 
+import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,37 +14,75 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 
+import com.example.shubham.themoviedb.Adapter.MoviesRowListener;
+import com.example.shubham.themoviedb.Adapter.ShowMovieAdapter;
+import com.example.shubham.themoviedb.Networking.ApiClient;
+import com.example.shubham.themoviedb.Database.Database;
+import com.example.shubham.themoviedb.Database.MovieDAO;
+import com.example.shubham.themoviedb.R;
+import com.example.shubham.themoviedb.entities.Movie;
+import com.example.shubham.themoviedb.entities.NowShowingMovie;
+import com.example.shubham.themoviedb.entities.TopRatedMovie;
+import com.example.shubham.themoviedb.entities.UpcomingMovie;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 RecyclerView nowShowingRV,topRatedRV,upComingRV;
 UpcomingMovie upcomingResponse;
 NowShowingMovie nowShowingResponse;
 TopRatedMovie topRatedResponse;
-ArrayList<Movie> upcomingMovies=new ArrayList<>();
-ArrayList<Movie> nowShowingMovies=new ArrayList<>();
-ArrayList<Movie> topRatedMovies=new ArrayList<>();
+int[] upcomingIds,nowShowingIds,topRatedIds;
+List<UpcomingMovie> upcomings=new ArrayList<>();
+List<NowShowingMovie> nowShowings=new ArrayList<>();
+List<TopRatedMovie> topRateds=new ArrayList<>();
+List<Movie> upcomingMovies=new ArrayList<>();
+List<Movie> nowShowingMovies=new ArrayList<>();
+List<Movie> topRatedMovies=new ArrayList<>();
 ShowMovieAdapter upComingAdapter,nowShowingAdapter,topRatedAdapter;
 ProgressBar progressBarUpcoming,progressBarNowShowing,progressBarTopRated;
+MovieDAO movieDAO;
 public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Database database= Room.databaseBuilder(getApplicationContext(),Database.class,"movie_db").allowMainThreadQueries().build();
+        movieDAO=database.getMovieDAO();
+        upcomingIds=movieDAO.getUpcomingMovie();
+        nowShowingIds=movieDAO.getNowShowing();
+        topRatedIds=movieDAO.getTopRatedMovie();
+        upcomingMovies=movieDAO.getMovies(upcomingIds);
+        nowShowingMovies=movieDAO.getMovies(nowShowingIds);
+        topRatedMovies=movieDAO.getMovies(topRatedIds);
         nowShowingRV=findViewById(R.id.NowShowing);
         topRatedRV=findViewById(R.id.TopRated);
         upComingRV=findViewById(R.id.UpComing);
         progressBarUpcoming=findViewById(R.id.progressBarUpComing);
         progressBarNowShowing=findViewById(R.id.progressBarNowShowing);
         progressBarTopRated=findViewById(R.id.progressBarTopRated);
+        if(upcomingMovies.size()>0)
+        {
+            progressBarUpcoming.setVisibility(View.INVISIBLE);
+            upComingRV.setVisibility(View.VISIBLE);
+        }
+        if(nowShowingMovies.size()>0)
+        {
+            progressBarNowShowing.setVisibility(View.INVISIBLE);
+            nowShowingRV.setVisibility(View.VISIBLE);
+        }
+        if(topRatedMovies.size()>0)
+        {
+            progressBarTopRated.setVisibility(View.INVISIBLE);
+            topRatedRV.setVisibility(View.VISIBLE);
+        }
         nowShowingAdapter=new ShowMovieAdapter(this, nowShowingMovies, new MoviesRowListener() {
             @Override
             public void onDownloadMoviesList(View view, int position) {
@@ -75,13 +114,21 @@ public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
         topRatedRV.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         topRatedRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
         topRatedRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        Call<UpcomingMovie> callUpcoming=ApiClient.getMovieDBService().getUpComingMovies(API_KEY);
+        Call<UpcomingMovie> callUpcoming= ApiClient.getMovieDBService().getUpComingMovies(API_KEY);
         callUpcoming.enqueue(new Callback<UpcomingMovie>() {
             @Override
             public void onResponse(Call<UpcomingMovie> call, Response<UpcomingMovie> response) {
                 upcomingResponse=response.body();
+                movieDAO.insertMovies(upcomingResponse.getResults());
+                for(int i=0;i<upcomingResponse.getResults().size();i++)
+                {
+                    UpcomingMovie upComing=new UpcomingMovie();
+                    upComing.setMovieId(upcomingResponse.getResults().get(i).getId());
+                    upcomings.add(upComing);
+                }
+                movieDAO.insertUpcomingMovies(upcomings);
                 upcomingMovies.clear();
-                upcomingMovies.addAll(upcomingResponse.results);
+                upcomingMovies.addAll(upcomingResponse.getResults());
                 upComingAdapter.notifyDataSetChanged();
                 upComingRV.setVisibility(View.VISIBLE);
                 progressBarUpcoming.setVisibility(View.INVISIBLE);
@@ -97,8 +144,16 @@ public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
             @Override
             public void onResponse(Call<NowShowingMovie> call, Response<NowShowingMovie> response) {
                 nowShowingResponse=response.body();
+                movieDAO.insertMovies(nowShowingResponse.getResults());
+                for(int i=0;i<nowShowingResponse.getResults().size();i++)
+                {
+                    NowShowingMovie nowShowing=new NowShowingMovie();
+                    nowShowing.setMovieId(nowShowingResponse.getResults().get(i).getId());
+                    nowShowings.add(nowShowing);
+                }
+                movieDAO.insertNowShowingMovies(nowShowings);
                 nowShowingMovies.clear();
-                nowShowingMovies.addAll(nowShowingResponse.results);
+                nowShowingMovies.addAll(nowShowingResponse.getResults());
                 nowShowingAdapter.notifyDataSetChanged();
                 nowShowingRV.setVisibility(View.VISIBLE);
                 progressBarNowShowing.setVisibility(View.INVISIBLE);
@@ -114,8 +169,16 @@ public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
             @Override
             public void onResponse(Call<TopRatedMovie> call, Response<TopRatedMovie> response) {
                 topRatedResponse=response.body();
+                movieDAO.insertMovies(topRatedResponse.getResults());
+                for(int i=0;i<topRatedResponse.getResults().size();i++)
+                {
+                    TopRatedMovie topRated=new TopRatedMovie();
+                    topRated.setMovieId(topRatedResponse.getResults().get(i).getId());
+                    topRateds.add(topRated);
+                }
+                movieDAO.insertTopRatedMovies(topRateds);
                 topRatedMovies.clear();
-                topRatedMovies.addAll(topRatedResponse.results);
+                topRatedMovies.addAll(topRatedResponse.getResults());
                 topRatedAdapter.notifyDataSetChanged();
                 topRatedRV.setVisibility(View.VISIBLE);
                 progressBarTopRated.setVisibility(View.INVISIBLE);

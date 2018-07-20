@@ -1,4 +1,4 @@
-package com.example.shubham.themoviedb;
+package com.example.shubham.themoviedb.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,19 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import com.example.shubham.themoviedb.entities.Movie;
+import com.example.shubham.themoviedb.ViewHolder.MoviesTabViewHolder;
+import com.example.shubham.themoviedb.R;
+
+import java.util.List;
 
 /**
  * Created by shubham on 7/15/2018.
  */
 
 public class ShowMovieAdapter extends RecyclerView.Adapter<MoviesTabViewHolder> {
-    ArrayList<Movie> moviesArrayList;
+    List<Movie> moviesArrayList;
     Context context;
     LayoutInflater inflater;
     MoviesRowListener listener;
 
-    public ShowMovieAdapter( Context context,ArrayList<Movie> moviesArrayList,MoviesRowListener listener) {
+    public ShowMovieAdapter(Context context, List<Movie> moviesArrayList, MoviesRowListener listener) {
         this.moviesArrayList = moviesArrayList;
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -33,8 +37,8 @@ public class ShowMovieAdapter extends RecyclerView.Adapter<MoviesTabViewHolder> 
 
     @Override
     public void onBindViewHolder(final MoviesTabViewHolder holder, int position) {
-        holder.tvTitle.setText(moviesArrayList.get(position).title);
-        holder.tvOverview.setText(moviesArrayList.get(position).overview);
+        holder.tvTitle.setText(moviesArrayList.get(position).getTitle());
+        holder.tvOverview.setText(moviesArrayList.get(position).getOverview());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,4 +1,4 @@
-package com.example.shubham.themoviedb;
+package com.example.shubham.themoviedb.Adapter;
 
 import android.view.View;
 
