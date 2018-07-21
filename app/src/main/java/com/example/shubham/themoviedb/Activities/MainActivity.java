@@ -3,16 +3,20 @@ package com.example.shubham.themoviedb.Activities;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.shubham.themoviedb.Adapter.PageAdapter;
 import com.example.shubham.themoviedb.Fragments.MoviesFragment;
+import com.example.shubham.themoviedb.Fragments.ShowsFragment;
 import com.example.shubham.themoviedb.R;
 
-public class MainActivity extends AppCompatActivity implements MoviesFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements MoviesFragment.OnFragmentInteractionListener,ShowsFragment.OnFragmentInteractionListener {
 //RecyclerView nowShowingRV,topRatedRV,upComingRV,popularRV;
 //UpcomingMovie upcomingResponse;
 //NowShowingMovie nowShowingResponse;
@@ -30,18 +34,25 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
 //ShowMovieAdapter upComingAdapter,nowShowingAdapter,topRatedAdapter,popularAdapter;
 //ProgressBar progressBarUpcoming,progressBarNowShowing,progressBarTopRated,progressBarPopular;
 //MovieDAO movieDAO;
-public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
+TabLayout tabLayout;
+ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        MoviesFragment fragment=MoviesFragment.newInstance();
-        android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction=fragmentManager.beginTransaction();
-        transaction.replace(R.id.Container,fragment);
-        transaction.commit();
+        tabLayout=findViewById(R.id.tablayout);
+        viewPager = findViewById(R.id.Container);
+        PageAdapter adapter = new PageAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+//        MoviesFragment fragment=MoviesFragment.newInstance();
+//        android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
+//        android.support.v4.app.FragmentTransaction transaction=fragmentManager.beginTransaction();
+//        transaction.replace(R.id.Container,fragment);
+//        transaction.commit();
 //        Database database= Room.databaseBuilder(getApplicationContext(),Database.class,"movie_db").allowMainThreadQueries().build();
 //        movieDAO=database.getMovieDAO();
 //        upcomingIds=movieDAO.getUpcomingMovie();
@@ -253,7 +264,12 @@ public static final String API_KEY="52d58450e4782fc69aef2ff928bb2162";
     }
 
     @Override
-    public void onFragmentInteraction() {
+    public void onMoviesFragmentInteraction() {
+
+    }
+
+    @Override
+    public void onShowsFragmentInteraction() {
 
     }
 }

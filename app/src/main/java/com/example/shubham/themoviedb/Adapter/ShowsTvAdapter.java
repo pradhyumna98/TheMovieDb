@@ -5,28 +5,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.example.shubham.themoviedb.Constants;
-import com.example.shubham.themoviedb.entities.Movies.Movie;
-import com.example.shubham.themoviedb.ViewHolder.TabViewHolder;
 import com.example.shubham.themoviedb.R;
+import com.example.shubham.themoviedb.ViewHolder.TabViewHolder;
+import com.example.shubham.themoviedb.entities.TvShows.Shows;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 /**
- * Created by shubham on 7/15/2018.
+ * Created by shubham on 7/21/2018.
  */
 
-public class ShowMovieAdapter extends RecyclerView.Adapter<TabViewHolder> {
-    List<Movie> moviesArrayList;
+public class ShowsTvAdapter extends RecyclerView.Adapter<TabViewHolder> {
+    List<Shows> showsArrayList;
     Context context;
     LayoutInflater inflater;
     RowListener listener;
 
-    public ShowMovieAdapter(Context context, List<Movie> moviesArrayList, RowListener listener) {
-        this.moviesArrayList = moviesArrayList;
+    public ShowsTvAdapter(Context context, List<Shows> showsArrayList, RowListener listener) {
+        this.showsArrayList = showsArrayList;
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         this.listener=listener;
@@ -40,10 +39,10 @@ public class ShowMovieAdapter extends RecyclerView.Adapter<TabViewHolder> {
 
     @Override
     public void onBindViewHolder(final TabViewHolder holder, int position) {
-        holder.tvTitle.setText(moviesArrayList.get(position).getTitle());
-        holder.tvOverview.setText(moviesArrayList.get(position).getOverview());
-        if(moviesArrayList.get(position).getPosterPath()!=null)
-        Picasso.get().load(Constants.IMAGE_URL+moviesArrayList.get(position).getPosterPath()).into(holder.poster);
+        holder.tvTitle.setText(showsArrayList.get(position).getName());
+        holder.tvOverview.setText(showsArrayList.get(position).getOverview());
+        if(showsArrayList.get(position).getPosterPath()!=null)
+            Picasso.get().load(Constants.IMAGE_URL+showsArrayList.get(position).getPosterPath()).into(holder.poster);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,8 +50,9 @@ public class ShowMovieAdapter extends RecyclerView.Adapter<TabViewHolder> {
             }
         });
     }
+
     @Override
     public int getItemCount() {
-        return moviesArrayList.size();
+        return showsArrayList.size();
     }
 }

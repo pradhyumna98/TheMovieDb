@@ -1,5 +1,7 @@
 package com.example.shubham.themoviedb.Networking;
 
+import com.example.shubham.themoviedb.Constants;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -16,7 +18,7 @@ public class ApiClient {
        public static Retrofit getInstance(){
             if (retrofit == null) {
                 Retrofit.Builder builder = new Retrofit.Builder()
-                        .baseUrl("https://api.themoviedb.org/3/")
+                        .baseUrl(Constants.BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create());
                 retrofit = builder.build();
             }

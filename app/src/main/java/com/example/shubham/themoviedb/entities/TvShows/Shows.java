@@ -1,11 +1,15 @@
 
 package com.example.shubham.themoviedb.entities.TvShows;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
+@Entity()
 public class Shows {
 
     @SerializedName("backdrop_path")
@@ -13,10 +17,13 @@ public class Shows {
     @SerializedName("first_air_date")
     private String firstAirDate;
     @SerializedName("genre_ids")
+    @Ignore
     private List<Long> genreIds;
+    @PrimaryKey()
     private Long id;
     private String name;
     @SerializedName("origin_country")
+    @Ignore
     private List<String> originCountry;
     @SerializedName("original_language")
     private String originalLanguage;
