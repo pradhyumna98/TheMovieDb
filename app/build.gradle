@@ -26,6 +26,7 @@ dependencies {
     def room_version = "1.1.1"
 
     implementation "android.arch.persistence.room:runtime:$room_version"
+    implementation 'com.android.support:support-v4:26.1.0'
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     testImplementation 'junit:junit:4.12'

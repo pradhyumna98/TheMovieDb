@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.shubham.themoviedb.entities.Movie;
+import com.example.shubham.themoviedb.entities.Movies.Movie;
 import com.example.shubham.themoviedb.ViewHolder.MoviesTabViewHolder;
 import com.example.shubham.themoviedb.R;
 

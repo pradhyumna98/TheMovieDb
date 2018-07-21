@@ -1,4 +1,4 @@
-package com.example.shubham.themoviedb.entities;
+package com.example.shubham.themoviedb.entities.Movies;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
@@ -22,6 +22,21 @@ public class Movie {
     @Ignore
     @SerializedName("genre_ids")
     ArrayList<Integer> genreIds;
+    @PrimaryKey()
+    int id;
+    @SerializedName("original_title")
+    String originalTitle;
+    @SerializedName("original_language")
+    String originalLanguage;
+    String title;
+    @SerializedName("backdrop_path")
+    String backdropPath;
+    Float popularity;
+    @SerializedName("vote_count")
+    Integer voteCount;
+    Boolean video;
+    @SerializedName("vote_average")
+    Float voteAverage;
 
     public String getPosterPath() {
         return posterPath;
@@ -134,20 +149,4 @@ public class Movie {
     public void setVoteAverage(Float voteAverage) {
         this.voteAverage = voteAverage;
     }
-
-    @PrimaryKey()
-    int id;
-    @SerializedName("original_title")
-    String originalTitle;
-    @SerializedName("original_language")
-    String originalLanguage;
-    String title;
-    @SerializedName("backdrop_path")
-    String backdropPath;
-    Float popularity;
-    @SerializedName("vote_count")
-    Integer voteCount;
-    Boolean video;
-    @SerializedName("vote_average")
-    Float voteAverage;
 }

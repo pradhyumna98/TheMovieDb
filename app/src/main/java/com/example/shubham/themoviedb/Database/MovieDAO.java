@@ -5,10 +5,11 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.example.shubham.themoviedb.entities.Movie;
-import com.example.shubham.themoviedb.entities.NowShowingMovie;
-import com.example.shubham.themoviedb.entities.TopRatedMovie;
-import com.example.shubham.themoviedb.entities.UpcomingMovie;
+import com.example.shubham.themoviedb.entities.Movies.Movie;
+import com.example.shubham.themoviedb.entities.Movies.NowShowingMovie;
+import com.example.shubham.themoviedb.entities.Movies.PopularMovie;
+import com.example.shubham.themoviedb.entities.Movies.TopRatedMovie;
+import com.example.shubham.themoviedb.entities.Movies.UpcomingMovie;
 
 import java.util.List;
 
@@ -25,13 +26,19 @@ public interface MovieDAO {
     void insertNowShowingMovies(List<NowShowingMovie> nowShowingMovies);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTopRatedMovies(List<TopRatedMovie> topRatedMovies);
-    @Query("Select * from Movie where id in (:ids)")
-    List<Movie> getMovies(int[] ids);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertPopularMovies(List<PopularMovie> popularMovies);
+    @Query("Select * from Movie where id in (:ids) order by popularity desc")
+    List<Movie> getNowUpMovies(int[] ids);
+    @Query("Select * from Movie where id in (:ids) order by voteAverage desc")
+    List<Movie> getTopPopMovies(int[] ids);
     @Query("Select movieId from NowShowingMovie")
     int[] getNowShowing();
     @Query("Select movieId from UpcomingMovie")
     int[] getUpcomingMovie();
     @Query("Select movieId from TopRatedMovie")
     int[] getTopRatedMovie();
+    @Query("Select movieId from PopularMovie")
+    int[] getPopularMovie();
 
 }
