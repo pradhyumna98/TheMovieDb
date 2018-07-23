@@ -13,7 +13,7 @@ import java.util.List;
  * Created by shubham on 7/21/2018.
  */
 @Entity(foreignKeys =
-        {@ForeignKey(entity = Movie.class,parentColumns ="id" ,childColumns = "movieId",onUpdate = ForeignKey.CASCADE)})
+        {@ForeignKey(entity = Movie.class,parentColumns ="id" ,childColumns = "movieId",onUpdate = ForeignKey.CASCADE,onDelete = ForeignKey.CASCADE)})
 public class PopularMovie {
     @PrimaryKey(autoGenerate = true)
     int id;

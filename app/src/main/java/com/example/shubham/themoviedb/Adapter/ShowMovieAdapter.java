@@ -41,7 +41,7 @@ public class ShowMovieAdapter extends RecyclerView.Adapter<TabViewHolder> {
     @Override
     public void onBindViewHolder(final TabViewHolder holder, int position) {
         holder.tvTitle.setText(moviesArrayList.get(position).getTitle());
-        holder.tvOverview.setText(moviesArrayList.get(position).getOverview());
+//        holder.tvOverview.setText(moviesArrayList.get(position).getOverview());
         if(moviesArrayList.get(position).getPosterPath()!=null)
         Picasso.get().load(Constants.IMAGE_URL+moviesArrayList.get(position).getPosterPath()).into(holder.poster);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

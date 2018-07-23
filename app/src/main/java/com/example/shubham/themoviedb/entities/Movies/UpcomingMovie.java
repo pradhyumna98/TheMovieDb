@@ -14,7 +14,7 @@ import java.util.List;
  * Created by shubham on 7/15/2018.
  */
 @Entity(foreignKeys =
-        {@ForeignKey(entity = Movie.class,parentColumns ="id" ,childColumns = "movieId")})
+        {@ForeignKey(entity = Movie.class,parentColumns ="id" ,childColumns = "movieId",onDelete = ForeignKey.CASCADE)})
 public class UpcomingMovie {
     @PrimaryKey(autoGenerate = true)
     int id;

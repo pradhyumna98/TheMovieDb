@@ -1,6 +1,8 @@
 package com.example.shubham.themoviedb.Database;
 
+import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.content.Context;
 
 import com.example.shubham.themoviedb.entities.Movies.Movie;
 import com.example.shubham.themoviedb.entities.Movies.NowShowingMovie;
@@ -20,4 +22,13 @@ import com.example.shubham.themoviedb.entities.TvShows.TopRatedShows;
 public abstract class Database extends RoomDatabase{
 public abstract MovieDAO getMovieDAO();
 public abstract ShowDAO getShowDAO();
+private static Database database;
+public static Database getInstance(Context context)
+{
+    if(database==null)
+    {
+        database= Room.databaseBuilder(context.getApplicationContext(),Database.class,"movie_db").allowMainThreadQueries().build();
+    }
+    return database;
+}
 }

@@ -10,7 +10,7 @@ import android.arch.persistence.room.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-@Entity(foreignKeys={@ForeignKey(entity = Shows.class,parentColumns = "id",childColumns = "showId",onUpdate = ForeignKey.CASCADE)})
+@Entity(foreignKeys={@ForeignKey(entity = Shows.class,parentColumns = "id",childColumns = "showId",onUpdate = ForeignKey.CASCADE,onDelete = ForeignKey.CASCADE)})
 public class TopRatedShows {
     @PrimaryKey(autoGenerate = true)
     int id;

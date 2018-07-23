@@ -40,7 +40,7 @@ public class ShowsTvAdapter extends RecyclerView.Adapter<TabViewHolder> {
     @Override
     public void onBindViewHolder(final TabViewHolder holder, int position) {
         holder.tvTitle.setText(showsArrayList.get(position).getName());
-        holder.tvOverview.setText(showsArrayList.get(position).getOverview());
+//        holder.tvOverview.setText(showsArrayList.get(position).getOverview());
         if(showsArrayList.get(position).getPosterPath()!=null)
             Picasso.get().load(Constants.IMAGE_URL+showsArrayList.get(position).getPosterPath()).into(holder.poster);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

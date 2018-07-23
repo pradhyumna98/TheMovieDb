@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by shubham on 7/21/2018.
  */
-@Entity(foreignKeys={@ForeignKey(entity = Shows.class,parentColumns = "id",childColumns = "showId",onUpdate = ForeignKey.CASCADE)})
+@Entity(foreignKeys={@ForeignKey(entity = Shows.class,parentColumns = "id",childColumns = "showId",onUpdate = ForeignKey.CASCADE,onDelete = ForeignKey.CASCADE)})
 public class AirTodayShows {
     @PrimaryKey(autoGenerate = true)
     int id;

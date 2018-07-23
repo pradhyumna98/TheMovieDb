@@ -19,7 +19,6 @@ public class TabViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         this.itemView=itemView;
         tvTitle=itemView.findViewById(R.id.tvTitle);
-        tvOverview=itemView.findViewById(R.id.tvOverview);
         poster=itemView.findViewById(R.id.poster);
     }
 }
