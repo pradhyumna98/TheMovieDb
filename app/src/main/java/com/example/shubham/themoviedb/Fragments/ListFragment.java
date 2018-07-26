@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.example.shubham.themoviedb.Activities.Details;
 import com.example.shubham.themoviedb.Adapter.RowListener;
 import com.example.shubham.themoviedb.Adapter.ShowMovieAdapter;
 import com.example.shubham.themoviedb.Adapter.ShowsTvAdapter;
@@ -59,6 +61,7 @@ String type,fragment;
 Bundle bundle;
 LoadList listLoader;
 int page=1;
+long id;
 
     public ListFragment() {
         // Required empty public constructor
@@ -87,9 +90,10 @@ int page=1;
         });
         fragment=bundle.getString(Constants.FRAGMENT);
         type=bundle.getString(Constants.TYPE);
+        id=bundle.getLong(Constants.ID,0);
         if(fragment.equals(Constants.MOVIES_FRAGMENT))
         {
-            movies.addAll(listLoader.getMovies(page));
+            movies.addAll(listLoader.getMovies(page,id));
             if(type.equals(Constants.NOW_SHOWING_MOVIES))
             {
                 tv.setText("Now Showing");
@@ -106,6 +110,10 @@ int page=1;
             {
                 tv.setText("Upcoming");
             }
+            else if(type.equals(Constants.SIMILAR_MOVIES))
+            {
+                tv.setText("Similar");
+            }
             if(movies.size()>0)
             {
                 RV.setVisibility(View.VISIBLE);
@@ -114,14 +122,29 @@ int page=1;
             moviesAdapter=new ShowMovieAdapter(getContext(), movies, new RowListener() {
                 @Override
                 public void onListItemClicked(View view, int position) {
+                    Intent intent=new Intent(getActivity(), Details.class);
+                    intent.putExtra(Constants.FRAGMENT,Constants.MOVIES_FRAGMENT);
+                    long id=movies.get(position).getId();
+                    intent.putExtra(Constants.ID,id);
+                    getActivity().startActivity(intent);
+                }
 
+                @Override
+                public void onButtonClicked(int position,Boolean checked) {
+                    if(checked)
+                    {
+
+                    }
+                    else {
+
+                    }
                 }
             });
             RV.setAdapter(moviesAdapter);
         }
         else if(fragment.equals(Constants.SHOWS_FRAGMENT))
         {
-            shows.addAll(listLoader.getShows(page));
+            shows.addAll(listLoader.getShows(page,id));
             if(type.equals(Constants.AIR_TODAY_SHOWS))
             {
                tv.setText("Airing Today");
@@ -138,6 +161,10 @@ int page=1;
             {
                tv.setText("On Air");
             }
+            else if(type.equals(Constants.SIMILAR_SHOWS))
+            {
+                tv.setText("Similar");
+            }
             if(shows.size()>0)
             {
                 RV.setVisibility(View.VISIBLE);
@@ -146,7 +173,21 @@ int page=1;
             showsAdapter=new ShowsTvAdapter(getContext(), shows, new RowListener() {
                 @Override
                 public void onListItemClicked(View view, int position) {
+                    Intent intent=new Intent(getActivity(), Details.class);
+                    intent.putExtra(Constants.FRAGMENT,Constants.SHOWS_FRAGMENT);
+                    intent.putExtra(Constants.ID,shows.get(position).getId());
+                    getActivity().startActivity(intent);
+                }
 
+                @Override
+                public void onButtonClicked(int position,Boolean checked) {
+                    if(checked)
+                    {
+
+                    }
+                    else {
+
+                    }
                 }
             });
             RV.setAdapter(showsAdapter);

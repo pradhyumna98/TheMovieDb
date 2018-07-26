@@ -50,6 +50,12 @@ public class ShowMovieAdapter extends RecyclerView.Adapter<TabViewHolder> {
                 listener.onListItemClicked(v,holder.getAdapterPosition());
             }
         });
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onButtonClicked(holder.getAdapterPosition(),holder.button.isChecked());
+            }
+        });
     }
     @Override
     public int getItemCount() {

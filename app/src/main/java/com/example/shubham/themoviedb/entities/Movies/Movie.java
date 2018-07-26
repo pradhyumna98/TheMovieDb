@@ -4,6 +4,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.example.shubham.themoviedb.Database.Genre;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class Movie {
     @Ignore
     @SerializedName("genre_ids")
     ArrayList<Integer> genreIds;
+    @Ignore
+    ArrayList<Genre> genres;
     @PrimaryKey()
     int id;
     @SerializedName("original_title")
@@ -37,6 +40,23 @@ public class Movie {
     Boolean video;
     @SerializedName("vote_average")
     Float voteAverage;
+    Boolean favourite;
+
+    public Boolean getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(Boolean favourite) {
+        this.favourite = favourite;
+    }
+
+    public ArrayList<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<Genre> genres) {
+        this.genres = genres;
+    }
 
     public String getPosterPath() {
         return posterPath;

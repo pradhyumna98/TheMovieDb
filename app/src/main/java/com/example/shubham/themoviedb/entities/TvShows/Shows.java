@@ -5,7 +5,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.example.shubham.themoviedb.Database.Genre;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -19,6 +22,8 @@ public class Shows {
     @SerializedName("genre_ids")
     @Ignore
     private List<Long> genreIds;
+    @Ignore
+    ArrayList<Genre> genres;
     @PrimaryKey()
     private Long id;
     private String name;
@@ -37,6 +42,23 @@ public class Shows {
     private Double voteAverage;
     @SerializedName("vote_count")
     private Long voteCount;
+    Boolean favourite;
+
+    public Boolean getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(Boolean favourite) {
+        this.favourite = favourite;
+    }
+
+    public ArrayList<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<Genre> genres) {
+        this.genres = genres;
+    }
 
     public String getBackdropPath() {
         return backdropPath;

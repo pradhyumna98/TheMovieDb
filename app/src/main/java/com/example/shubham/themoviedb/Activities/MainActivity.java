@@ -12,13 +12,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.shubham.themoviedb.Adapter.PageAdapter;
+import com.example.shubham.themoviedb.Constants;
+import com.example.shubham.themoviedb.Database.Database;
+import com.example.shubham.themoviedb.Database.MovieDAO;
+import com.example.shubham.themoviedb.Database.ShowDAO;
 import com.example.shubham.themoviedb.Fragments.MoviesFragment;
 import com.example.shubham.themoviedb.Fragments.ShowsFragment;
+import com.example.shubham.themoviedb.Networking.ApiClient;
 import com.example.shubham.themoviedb.R;
+
+
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements MoviesFragment.OnFragmentInteractionListener,ShowsFragment.OnFragmentInteractionListener {
 
-TabLayout tabLayout;
+    TabLayout tabLayout;
 ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

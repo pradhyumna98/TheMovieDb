@@ -8,4 +8,5 @@ import android.view.View;
 
 public interface RowListener {
     void onListItemClicked(View view,int position);
+    void onButtonClicked(int position,Boolean checked);
 }

@@ -30,13 +30,15 @@
 
            <TextView
                android:id="@+id/tvTitle"
-               android:layout_width="match_parent"
+               android:layout_width="0dp"
                android:layout_height="0dp"
+               android:layout_marginBottom="8dp"
+               android:layout_marginEnd="8dp"
                android:layout_weight="0.2"
                android:text="TextView"
                android:textSize="10dp"
                app:layout_constraintBottom_toBottomOf="parent"
-               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintEnd_toStartOf="@+id/toggleButton"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintTop_toTopOf="@+id/guideline"></TextView>
 
@@ -46,6 +48,15 @@
                android:layout_height="wrap_content"
                android:orientation="horizontal"
                app:layout_constraintGuide_percent="0.76" />
+
+           <ToggleButton
+               android:id="@+id/toggleButton"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:checked="false"
+               android:focusable="false"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent" />
 
            <!--<TextView-->
            <!--android:id="@+id/tvOverview"-->

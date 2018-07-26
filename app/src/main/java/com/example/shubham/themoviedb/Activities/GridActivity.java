@@ -49,6 +49,7 @@ ShowsTvAdapter showsAdapter;
     List<Movie> movies=new ArrayList<>();
     List<Shows> shows=new ArrayList<>();
 int page=1;
+long id;
 Bundle bundle=new Bundle();
 Database database;
 MovieDAO movieDAO;
@@ -69,6 +70,7 @@ ShowDAO showDAO;
         bundle=intent.getExtras();
         listLoader=new LoadList(bundle,this,this);
         fragment=bundle.getString(Constants.FRAGMENT);
+        id=bundle.getLong(Constants.ID,0);
         listener=new EndlessRecyclerViewScrollListener(manager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -88,30 +90,58 @@ ShowDAO showDAO;
                     }
                 });
                 if(fragment.equals(Constants.MOVIES_FRAGMENT))
-                    loadList.getMovies(page);
+                    loadList.getMovies(page,id);
                 else if(fragment.equals(Constants.SHOWS_FRAGMENT))
-                    loadList.getShows(page);
+                    loadList.getShows(page,id);
             }
         };
         RV.addOnScrollListener(listener);
         if(fragment.equals(Constants.MOVIES_FRAGMENT))
         {
-            movies.addAll(listLoader.getMovies(page));
+            movies.addAll(listLoader.getMovies(page,id));
            moviesAdapter=new ShowMovieAdapter(this,movies, new RowListener() {
                @Override
                public void onListItemClicked(View view, int position) {
+                   Intent intent=new Intent(GridActivity.this, Details.class);
+                   intent.putExtra(Constants.FRAGMENT,Constants.MOVIES_FRAGMENT);
+                   intent.putExtra(Constants.ID,(long)movies.get(position).getId());
+                   startActivity(intent);
+               }
 
+               @Override
+               public void onButtonClicked(int position,Boolean checked) {
+                   if(checked)
+                   {
+
+                   }
+                   else {
+
+                   }
                }
            });
            RV.setAdapter(moviesAdapter);
         }
         else if(fragment.equals(Constants.SHOWS_FRAGMENT))
         {
-            shows.addAll(listLoader.getShows(page));
+            shows.addAll(listLoader.getShows(page,id));
             showsAdapter=new ShowsTvAdapter(this,shows, new RowListener() {
                 @Override
                 public void onListItemClicked(View view, int position) {
+                    Intent intent=new Intent(GridActivity.this, Details.class);
+                    intent.putExtra(Constants.FRAGMENT,Constants.SHOWS_FRAGMENT);
+                    intent.putExtra(Constants.ID,shows.get(position).getId());
+                    startActivity(intent);
+                }
 
+                @Override
+                public void onButtonClicked(int position,Boolean checked) {
+                    if(checked)
+                    {
+
+                    }
+                    else {
+
+                    }
                 }
             });
             RV.setAdapter(showsAdapter);

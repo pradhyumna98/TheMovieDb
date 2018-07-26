@@ -3,8 +3,8 @@ package com.example.shubham.themoviedb.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
-
 import com.example.shubham.themoviedb.entities.Movies.Movie;
+
 import com.example.shubham.themoviedb.entities.Movies.NowShowingMovie;
 import com.example.shubham.themoviedb.entities.Movies.PopularMovie;
 import com.example.shubham.themoviedb.entities.Movies.TopRatedMovie;
@@ -12,6 +12,7 @@ import com.example.shubham.themoviedb.entities.Movies.UpcomingMovie;
 import com.example.shubham.themoviedb.entities.TvShows.AirTodayShows;
 import com.example.shubham.themoviedb.entities.TvShows.OnAirShows;
 import com.example.shubham.themoviedb.entities.TvShows.PopularShows;
+
 import com.example.shubham.themoviedb.entities.TvShows.Shows;
 import com.example.shubham.themoviedb.entities.TvShows.TopRatedShows;
 
