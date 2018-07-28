@@ -17,7 +17,7 @@ public class Constants {
     public  static  final String POPULAR_SHOWS="popular_shows";
     public  static  final String SIMILAR_SHOWS="similar_shows";
     public  static  final String FRAGMENT="fragment";
-    public  static  final String POSITION="position";
+    public  static  final String QUERY="query";
     public  static  final String MOVIES_FRAGMENT="movies_fragment";
     public  static  final String SHOWS_FRAGMENT="shows_fragment";
     public  static  final String IMAGE_URL="https://image.tmdb.org/t/p/w500";

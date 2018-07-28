@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.example.shubham.themoviedb.Database.Genre;
+import com.example.shubham.themoviedb.entities.SearchItems;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * Created by shubham on 7/15/2018.
  */
 @Entity()
-public class Movie {
+public class Movie implements SearchItems {
      @SerializedName("poster_path")
     String posterPath;
     Boolean adult;
@@ -41,6 +42,27 @@ public class Movie {
     @SerializedName("vote_average")
     Float voteAverage;
     Boolean favourite;
+    @Ignore
+    @SerializedName("media_type")
+    private String mediaType;
+    @Ignore
+    int TYPE=0;
+
+    public int getTYPE() {
+        return TYPE;
+    }
+
+    public void setTYPE(int TYPE) {
+        this.TYPE = TYPE;
+    }
+
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
 
     public Boolean getFavourite() {
         return favourite;

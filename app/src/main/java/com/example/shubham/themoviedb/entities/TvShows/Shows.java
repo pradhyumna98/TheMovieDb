@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.shubham.themoviedb.Database.Genre;
+import com.example.shubham.themoviedb.entities.SearchItems;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Entity()
-public class Shows {
+public class Shows implements SearchItems {
 
     @SerializedName("backdrop_path")
     private String backdropPath;
@@ -43,6 +44,26 @@ public class Shows {
     @SerializedName("vote_count")
     private Long voteCount;
     Boolean favourite;
+    @Ignore
+    @SerializedName("media_type")
+    private String mediaType;
+    @Ignore
+    int TYPE=1;
+
+    public int getTYPE() {
+        return TYPE;
+    }
+
+    public void setTYPE(int TYPE) {
+        this.TYPE = TYPE;
+    }
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
 
     public Boolean getFavourite() {
         return favourite;

@@ -1,5 +1,6 @@
 package com.example.shubham.themoviedb.Networking;
 
+import com.example.shubham.themoviedb.entities.Credits;
 import com.example.shubham.themoviedb.entities.Movies.Movie;
 
 import com.example.shubham.themoviedb.entities.Movies.NowShowingMovie;
@@ -15,6 +16,7 @@ import com.example.shubham.themoviedb.entities.TvShows.Shows;
 import com.example.shubham.themoviedb.entities.TvShows.SimilarShow;
 import com.example.shubham.themoviedb.entities.TvShows.TopRatedShows;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -49,4 +51,10 @@ public interface MovieDBService {
     Call<Movie> getMovieDetails(@Path("movie_id") long id,@Query("api_key") String key);
     @GET("tv/{tv_id}")
     Call<Shows> getShowDetails(@Path("tv_id") long id,@Query("api_key") String key);
+    @GET("movie/{movie_id}/credits")
+    Call<Credits> getMovieCreditDetails(@Path("movie_id") long id, @Query("api_key") String key);
+    @GET("tv/{tv_id}/credits")
+    Call<Credits> getShowCreditDetails(@Path("tv_id") long id, @Query("api_key") String key);
+    @GET("search/multi")
+    Call<ResponseBody> getSearchResult(@Query("api_key") String key,@Query("query") String search,@Query("page") int page);
 }

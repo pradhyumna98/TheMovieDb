@@ -25,7 +25,8 @@
         <activity
             android:name=".Activities.Details"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar.Details"></activity>
+            android:theme="@style/AppTheme.NoActionBar.Details" />
+        <activity android:name=".Activities.SearchResult"></activity>
     </application>
 
 </manifest>
