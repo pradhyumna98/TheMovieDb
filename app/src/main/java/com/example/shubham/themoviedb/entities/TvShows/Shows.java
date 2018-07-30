@@ -8,9 +8,8 @@ import android.arch.persistence.room.PrimaryKey;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.shubham.themoviedb.Database.Genre;
+import com.example.shubham.themoviedb.entities.Genre;
 import com.example.shubham.themoviedb.entities.SearchItems;
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Entity()

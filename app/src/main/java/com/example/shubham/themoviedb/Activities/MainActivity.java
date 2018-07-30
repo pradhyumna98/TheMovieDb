@@ -41,7 +41,7 @@ ImageButton button;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Toolbar toolbar = findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
         tabLayout=findViewById(R.id.tablayout);
         viewPager = findViewById(R.id.Container);
@@ -69,8 +69,8 @@ ImageButton button;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent=new Intent(MainActivity.this,Favourite.class);
+                startActivity(intent);
             }
         });
     }

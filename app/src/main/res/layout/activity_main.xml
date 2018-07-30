@@ -16,15 +16,19 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <ImageButton
                 android:id="@+id/imageButtonSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="60dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@android:drawable/ic_menu_search" />
 
             <EditText
@@ -32,12 +36,12 @@
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:hint="Search Movie,Shows and People"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton"
+                app:layout_constraintEnd_toStartOf="@+id/imageButtonSearch"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/toolbarMain"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_collapseMode="pin"

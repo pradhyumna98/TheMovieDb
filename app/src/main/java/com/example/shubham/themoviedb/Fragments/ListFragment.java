@@ -26,12 +26,15 @@ import com.example.shubham.themoviedb.ListLoadListener;
 import com.example.shubham.themoviedb.LoadList;
 import com.example.shubham.themoviedb.Networking.ApiClient;
 import com.example.shubham.themoviedb.R;
+import com.example.shubham.themoviedb.entities.Movies.FavouriteMovies;
 import com.example.shubham.themoviedb.entities.Movies.Movie;
 import com.example.shubham.themoviedb.entities.Movies.NowShowingMovie;
 import com.example.shubham.themoviedb.entities.Movies.PopularMovie;
 import com.example.shubham.themoviedb.entities.Movies.TopRatedMovie;
 import com.example.shubham.themoviedb.entities.Movies.UpcomingMovie;
+import com.example.shubham.themoviedb.entities.SearchItems;
 import com.example.shubham.themoviedb.entities.TvShows.AirTodayShows;
+import com.example.shubham.themoviedb.entities.TvShows.FavouriteShows;
 import com.example.shubham.themoviedb.entities.TvShows.OnAirShows;
 import com.example.shubham.themoviedb.entities.TvShows.PopularShows;
 import com.example.shubham.themoviedb.entities.TvShows.Shows;
@@ -53,6 +56,7 @@ RecyclerView RV;
 ProgressBar progressBar;
 TextView tv;
 Button btnViewAll;
+Database database;
 List<Movie> movies=new ArrayList<>();
 ShowMovieAdapter moviesAdapter;
 List<Shows> shows=new ArrayList<>();
@@ -62,7 +66,8 @@ Bundle bundle;
 LoadList listLoader;
 int page=1;
 long id;
-
+MovieDAO movieDAO;
+ShowDAO showDAO;
     public ListFragment() {
         // Required empty public constructor
     }
@@ -77,6 +82,9 @@ long id;
         progressBar=output.findViewById(R.id.progressBar);
         tv=output.findViewById(R.id.textView);
         btnViewAll=output.findViewById(R.id.button);
+        database=Database.getInstance(getContext());
+        movieDAO=database.getMovieDAO();
+        showDAO=database.getShowDAO();
         RV.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         bundle=getArguments();
         listLoader=new LoadList(bundle,getContext(),this);
@@ -130,13 +138,17 @@ long id;
                 }
 
                 @Override
-                public void onButtonClicked(int position,Boolean checked) {
+                public void onButtonClicked(int position, Boolean checked, SearchItems items) {
+                   Movie movie= (Movie) items;
+                    FavouriteMovies favouriteMovies=new FavouriteMovies();
+                    favouriteMovies.setMovieId(movie.getId());
                     if(checked)
                     {
-
+                        movieDAO.insertMovie(movie);
+                        movieDAO.insertFavouriteMovie(favouriteMovies);
                     }
                     else {
-
+                        movieDAO.deleteMovies(movie);
                     }
                 }
             });
@@ -180,13 +192,19 @@ long id;
                 }
 
                 @Override
-                public void onButtonClicked(int position,Boolean checked) {
+                public void onButtonClicked(int position,Boolean checked,SearchItems items) {
+                    Shows shows= (Shows) items;
+                    FavouriteShows favouriteShows=new FavouriteShows();
+                    favouriteShows.setShowId(shows.getId());
                     if(checked)
                     {
+                        showDAO.insertShow(shows);
+                        showDAO.insertFavouriteShow(favouriteShows);
 
                     }
-                    else {
-
+                    else
+                    {
+                        showDAO.deleteShows(shows);
                     }
                 }
             });

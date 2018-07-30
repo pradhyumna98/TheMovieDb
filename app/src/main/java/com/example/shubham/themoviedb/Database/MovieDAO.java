@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import com.example.shubham.themoviedb.entities.Movies.FavouriteMovies;
 import com.example.shubham.themoviedb.entities.Movies.Movie;
 
 import com.example.shubham.themoviedb.entities.Movies.NowShowingMovie;
@@ -13,7 +14,6 @@ import com.example.shubham.themoviedb.entities.Movies.PopularMovie;
 import com.example.shubham.themoviedb.entities.Movies.TopRatedMovie;
 import com.example.shubham.themoviedb.entities.Movies.UpcomingMovie;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +43,13 @@ public interface MovieDAO {
     int[] getTopRatedMovie();
     @Query("Select movieId from PopularMovie")
     int[] getPopularMovie();
+    @Query("Select movieId from FavouriteMovies")
+    int[] getFavouriteMovies();
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertMovie(Movie movie);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertFavouriteMovie(FavouriteMovies movie);
     @Delete
-    void deleteMovies(List<Movie> movies);
+    void deleteMovies(Movie movie);
 
 }

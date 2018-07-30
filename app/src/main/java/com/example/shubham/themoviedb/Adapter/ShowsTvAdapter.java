@@ -46,7 +46,7 @@ public class ShowsTvAdapter extends RecyclerView.Adapter<TabViewHolder> {
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onButtonClicked(holder.getAdapterPosition(),holder.button.isChecked());
+                listener.onButtonClicked(holder.getAdapterPosition(),holder.button.isChecked(),showsArrayList.get(holder.getAdapterPosition()));
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {

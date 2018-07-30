@@ -5,7 +5,7 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.example.shubham.themoviedb.Database.Dates;
+import com.example.shubham.themoviedb.entities.Dates;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

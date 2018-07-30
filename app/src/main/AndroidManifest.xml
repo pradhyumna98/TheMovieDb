@@ -26,7 +26,11 @@
             android:name=".Activities.Details"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar.Details" />
-        <activity android:name=".Activities.SearchResult"></activity>
+        <activity android:name=".Activities.SearchResult" />
+        <activity
+            android:name=".Activities.Favourite"
+            android:label="@string/title_activity_favourite"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

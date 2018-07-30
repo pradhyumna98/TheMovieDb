@@ -4,7 +4,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.example.shubham.themoviedb.Database.Genre;
+import com.example.shubham.themoviedb.entities.Genre;
 import com.example.shubham.themoviedb.entities.SearchItems;
 import com.google.gson.annotations.SerializedName;
 

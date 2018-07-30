@@ -2,6 +2,8 @@ package com.example.shubham.themoviedb.Activities;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,16 +20,20 @@ import com.example.shubham.themoviedb.Database.Database;
 import com.example.shubham.themoviedb.Database.MovieDAO;
 import com.example.shubham.themoviedb.Database.ShowDAO;
 import com.example.shubham.themoviedb.EndlessRecyclerViewScrollListener;
+import com.example.shubham.themoviedb.Fragments.GridFragment;
 import com.example.shubham.themoviedb.ListLoadListener;
 import com.example.shubham.themoviedb.LoadList;
 import com.example.shubham.themoviedb.Networking.ApiClient;
 import com.example.shubham.themoviedb.R;
+import com.example.shubham.themoviedb.entities.Movies.FavouriteMovies;
 import com.example.shubham.themoviedb.entities.Movies.Movie;
 import com.example.shubham.themoviedb.entities.Movies.NowShowingMovie;
 import com.example.shubham.themoviedb.entities.Movies.PopularMovie;
 import com.example.shubham.themoviedb.entities.Movies.TopRatedMovie;
 import com.example.shubham.themoviedb.entities.Movies.UpcomingMovie;
+import com.example.shubham.themoviedb.entities.SearchItems;
 import com.example.shubham.themoviedb.entities.TvShows.AirTodayShows;
+import com.example.shubham.themoviedb.entities.TvShows.FavouriteShows;
 import com.example.shubham.themoviedb.entities.TvShows.OnAirShows;
 import com.example.shubham.themoviedb.entities.TvShows.PopularShows;
 import com.example.shubham.themoviedb.entities.TvShows.Shows;
@@ -40,126 +46,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GridActivity extends AppCompatActivity implements ListLoadListener {
-RecyclerView RV;
-LoadList listLoader;
-String fragment;
-ShowMovieAdapter moviesAdapter;
-ShowsTvAdapter showsAdapter;
-    List<Movie> movies=new ArrayList<>();
-    List<Shows> shows=new ArrayList<>();
-int page=1;
-long id;
+public class GridActivity extends AppCompatActivity {
+GridFragment fragment=new GridFragment();
 Bundle bundle=new Bundle();
-Database database;
-MovieDAO movieDAO;
-ShowDAO showDAO;
-    EndlessRecyclerViewScrollListener listener;
-    GridLayoutManager manager;
-    @Override
+@Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid);
-        RV=findViewById(R.id.recyclerGrid);
-        manager=new GridLayoutManager(this,3);
-        RV.setLayoutManager(manager);
-        database=Database.getInstance(this);
-        movieDAO=database.getMovieDAO();
-        showDAO=database.getShowDAO();
-        Intent intent=getIntent();
-        bundle=intent.getExtras();
-        listLoader=new LoadList(bundle,this,this);
-        fragment=bundle.getString(Constants.FRAGMENT);
-        id=bundle.getLong(Constants.ID,0);
-        listener=new EndlessRecyclerViewScrollListener(manager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                LoadList loadList=new LoadList(bundle, GridActivity.this, new ListLoadListener() {
-                    @Override
-                    public void onMoviesListLoaded(List<Movie> movies) {
-                        GridActivity.this.movies.addAll(movies);
-                        movieDAO.deleteMovies(movies);
-                        moviesAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onShowsListLoaded(List<Shows> shows) {
-                        GridActivity.this.shows.addAll(shows);
-                        showDAO.deleteShows(shows);
-                        showsAdapter.notifyDataSetChanged();
-                    }
-                });
-                if(fragment.equals(Constants.MOVIES_FRAGMENT))
-                    loadList.getMovies(page,id);
-                else if(fragment.equals(Constants.SHOWS_FRAGMENT))
-                    loadList.getShows(page,id);
-            }
-        };
-        RV.addOnScrollListener(listener);
-        if(fragment.equals(Constants.MOVIES_FRAGMENT))
-        {
-            movies.addAll(listLoader.getMovies(page,id));
-           moviesAdapter=new ShowMovieAdapter(this,movies, new RowListener() {
-               @Override
-               public void onListItemClicked(View view, int position) {
-                   Intent intent=new Intent(GridActivity.this, Details.class);
-                   intent.putExtra(Constants.FRAGMENT,Constants.MOVIES_FRAGMENT);
-                   intent.putExtra(Constants.ID,(long)movies.get(position).getId());
-                   startActivity(intent);
-               }
-
-               @Override
-               public void onButtonClicked(int position,Boolean checked) {
-                   if(checked)
-                   {
-
-                   }
-                   else {
-
-                   }
-               }
-           });
-           RV.setAdapter(moviesAdapter);
-        }
-        else if(fragment.equals(Constants.SHOWS_FRAGMENT))
-        {
-            shows.addAll(listLoader.getShows(page,id));
-            showsAdapter=new ShowsTvAdapter(this,shows, new RowListener() {
-                @Override
-                public void onListItemClicked(View view, int position) {
-                    Intent intent=new Intent(GridActivity.this, Details.class);
-                    intent.putExtra(Constants.FRAGMENT,Constants.SHOWS_FRAGMENT);
-                    intent.putExtra(Constants.ID,shows.get(position).getId());
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onButtonClicked(int position,Boolean checked) {
-                    if(checked)
-                    {
-
-                    }
-                    else {
-
-                    }
-                }
-            });
-            RV.setAdapter(showsAdapter);
-        }
+        FragmentManager manager=getSupportFragmentManager();
+        FragmentTransaction transaction=manager.beginTransaction();
+        bundle=getIntent().getExtras();
+        fragment.setArguments(bundle);
+        transaction.replace(R.id.recyclerGridContainer,fragment);
+        transaction.commit();
     }
 
-    @Override
-    public void onMoviesListLoaded(List<Movie> movies) {
-        this.movies.clear();
-        this.movies.addAll(movies);
-        moviesAdapter.notifyDataSetChanged();
-
-    }
-
-    @Override
-    public void onShowsListLoaded(List<Shows> shows) {
-        this.shows.clear();
-        this.shows.addAll(shows);
-        showsAdapter.notifyDataSetChanged();
-    }
 }

@@ -39,7 +39,7 @@ public class ShowMovieAdapter extends RecyclerView.Adapter<TabViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final TabViewHolder holder, int position) {
+    public void onBindViewHolder(final TabViewHolder holder, final int position) {
         holder.tvTitle.setText(moviesArrayList.get(position).getTitle());
 //        holder.tvOverview.setText(moviesArrayList.get(position).getOverview());
         if(moviesArrayList.get(position).getPosterPath()!=null)
@@ -53,7 +53,7 @@ public class ShowMovieAdapter extends RecyclerView.Adapter<TabViewHolder> {
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onButtonClicked(holder.getAdapterPosition(),holder.button.isChecked());
+                listener.onButtonClicked(holder.getAdapterPosition(),holder.button.isChecked(),moviesArrayList.get(holder.getAdapterPosition()));
             }
         });
     }

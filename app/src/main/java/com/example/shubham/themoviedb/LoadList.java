@@ -71,13 +71,16 @@ public class LoadList {
                         List<NowShowingMovie> nowShowings=new ArrayList<>();
                         nowShowingResponse=response.body();
                         movieDAO.insertMovies(nowShowingResponse.getResults());
-                        for(int i=0;i<nowShowingResponse.getResults().size();i++)
+                        if(nowShowingResponse.getPage()==1)
                         {
-                            NowShowingMovie nowShowing=new NowShowingMovie();
-                            nowShowing.setMovieId(nowShowingResponse.getResults().get(i).getId());
-                            nowShowings.add(nowShowing);
+                            for(int i=0;i<nowShowingResponse.getResults().size();i++)
+                            {
+                                NowShowingMovie nowShowing=new NowShowingMovie();
+                                nowShowing.setMovieId(nowShowingResponse.getResults().get(i).getId());
+                                nowShowings.add(nowShowing);
+                            }
+                            movieDAO.insertNowShowingMovies(nowShowings);
                         }
-                        movieDAO.insertNowShowingMovies(nowShowings);
                         movies.clear();
                         movies.addAll(nowShowingResponse.getResults());
                         listener.onMoviesListLoaded(movies);
@@ -105,13 +108,16 @@ public class LoadList {
                      List<PopularMovie>populars=new ArrayList<>();
                      popularResponse=response.body();
                      movieDAO.insertMovies(popularResponse.getResults());
-                     for(int i=0;i<popularResponse.getResults().size();i++)
+                     if(popularResponse.getPage()==1)
                      {
-                         PopularMovie popular=new PopularMovie();
-                         popular.setMovieId(popularResponse.getResults().get(i).getId());
-                         populars.add(popular);
+                         for(int i=0;i<popularResponse.getResults().size();i++)
+                         {
+                             PopularMovie popular=new PopularMovie();
+                             popular.setMovieId(popularResponse.getResults().get(i).getId());
+                             populars.add(popular);
+                         }
+                         movieDAO.insertPopularMovies(populars);
                      }
-                     movieDAO.insertPopularMovies(populars);
                      movies.clear();
                      movies.addAll(popularResponse.getResults());
                      listener.onMoviesListLoaded(movies);
@@ -140,13 +146,16 @@ public class LoadList {
                        List<TopRatedMovie> topRateds=new ArrayList<>();
                        topRatedResponse=response.body();
                        movieDAO.insertMovies(topRatedResponse.getResults());
-                       for(int i=0;i<topRatedResponse.getResults().size();i++)
+                       if(topRatedResponse.getPage()==1)
                        {
-                           TopRatedMovie topRated=new TopRatedMovie();
-                           topRated.setMovieId(topRatedResponse.getResults().get(i).getId());
-                           topRateds.add(topRated);
+                           for(int i=0;i<topRatedResponse.getResults().size();i++)
+                           {
+                               TopRatedMovie topRated=new TopRatedMovie();
+                               topRated.setMovieId(topRatedResponse.getResults().get(i).getId());
+                               topRateds.add(topRated);
+                           }
+                           movieDAO.insertTopRatedMovies(topRateds);
                        }
-                       movieDAO.insertTopRatedMovies(topRateds);
                        movies.clear();
                        movies.addAll(topRatedResponse.getResults());
                        listener.onMoviesListLoaded(movies);
@@ -174,13 +183,16 @@ public class LoadList {
                     List<UpcomingMovie> upcomings=new ArrayList<>();
                     upcomingResponse=response.body();
                     movieDAO.insertMovies(upcomingResponse.getResults());
-                    for(int i=0;i<upcomingResponse.getResults().size();i++)
+                    if(upcomingResponse.getPage()==1)
                     {
-                        UpcomingMovie upcoming=new UpcomingMovie();
-                        upcoming.setMovieId(upcomingResponse.getResults().get(i).getId());
-                        upcomings.add(upcoming);
+                        for(int i=0;i<upcomingResponse.getResults().size();i++)
+                        {
+                            UpcomingMovie upcoming=new UpcomingMovie();
+                            upcoming.setMovieId(upcomingResponse.getResults().get(i).getId());
+                            upcomings.add(upcoming);
+                        }
+                        movieDAO.insertUpcomingMovies(upcomings);
                     }
-                    movieDAO.insertUpcomingMovies(upcomings);
                     movies.clear();
                     movies.addAll(upcomingResponse.getResults());
                     listener.onMoviesListLoaded(movies);
@@ -237,13 +249,16 @@ public class LoadList {
                        List<AirTodayShows> airTodays=new ArrayList<>();
                        airTodayResponse=response.body();
                        showDAO.insertShows(airTodayResponse.getResults());
-                       for(int i=0;i<airTodayResponse.getResults().size();i++)
+                       if(airTodayResponse.getPage()==1)
                        {
-                           AirTodayShows airToday=new AirTodayShows();
-                           airToday.setShowId(airTodayResponse.getResults().get(i).getId());
-                           airTodays.add(airToday);
+                           for(int i=0;i<airTodayResponse.getResults().size();i++)
+                           {
+                               AirTodayShows airToday=new AirTodayShows();
+                               airToday.setShowId(airTodayResponse.getResults().get(i).getId());
+                               airTodays.add(airToday);
+                           }
+                           showDAO.insertAirTodayShows(airTodays);
                        }
-                       showDAO.insertAirTodayShows(airTodays);
                        shows.clear();
                        shows.addAll(airTodayResponse.getResults());
                        listener.onShowsListLoaded(shows);
@@ -271,13 +286,16 @@ public class LoadList {
                       List<PopularShows> populars=new ArrayList<>();
                       popularResponse=response.body();
                       showDAO.insertShows(popularResponse.getResults());
-                      for(int i=0;i<popularResponse.getResults().size();i++)
+                      if(popularResponse.getPage()==1)
                       {
-                          PopularShows popular=new PopularShows();
-                          popular.setShowId(popularResponse.getResults().get(i).getId());
-                          populars.add(popular);
+                          for(int i=0;i<popularResponse.getResults().size();i++)
+                          {
+                              PopularShows popular=new PopularShows();
+                              popular.setShowId(popularResponse.getResults().get(i).getId());
+                              populars.add(popular);
+                          }
+                          showDAO.insertPopularShows(populars);
                       }
-                      showDAO.insertPopularShows(populars);
                       shows.clear();
                       shows.addAll(popularResponse.getResults());
                       listener.onShowsListLoaded(shows);
@@ -306,13 +324,16 @@ public class LoadList {
                         List<TopRatedShows> topRateds=new ArrayList<>();
                         topRatedResponse=response.body();
                         showDAO.insertShows(topRatedResponse.getResults());
-                        for(int i=0;i<topRatedResponse.getResults().size();i++)
+                        if(topRatedResponse.getPage()==1)
                         {
-                            TopRatedShows topRated=new TopRatedShows();
-                            topRated.setShowId( topRatedResponse.getResults().get(i).getId());
-                            topRateds.add( topRated);
+                            for(int i=0;i<topRatedResponse.getResults().size();i++)
+                            {
+                                TopRatedShows topRated=new TopRatedShows();
+                                topRated.setShowId( topRatedResponse.getResults().get(i).getId());
+                                topRateds.add( topRated);
+                            }
+                            showDAO.insertTopRatedShows( topRateds);
                         }
-                        showDAO.insertTopRatedShows( topRateds);
                         shows.clear();
                         shows.addAll( topRatedResponse.getResults());
                         listener.onShowsListLoaded(shows);
@@ -340,13 +361,16 @@ public class LoadList {
                         List<OnAirShows> onAirs=new ArrayList<>();
                         onAirResponse=response.body();
                         showDAO.insertShows(onAirResponse.getResults());
-                        for(int i=0;i<onAirResponse.getResults().size();i++)
+                        if(onAirResponse.getPage()==1)
                         {
-                            OnAirShows onAir=new OnAirShows();
-                            onAir.setShowId(onAirResponse.getResults().get(i).getId());
-                            onAirs.add(onAir);
+                            for(int i=0;i<onAirResponse.getResults().size();i++)
+                            {
+                                OnAirShows onAir=new OnAirShows();
+                                onAir.setShowId(onAirResponse.getResults().get(i).getId());
+                                onAirs.add(onAir);
+                            }
+                            showDAO.insertOnAirShows(onAirs);
                         }
-                        showDAO.insertOnAirShows(onAirs);
                         shows.clear();
                         shows.addAll(onAirResponse.getResults());
                         listener.onShowsListLoaded(shows);
@@ -381,6 +405,19 @@ public class LoadList {
         }
        return shows;
     }
-
+    public List<Movie> getFavouriteMovies()
+    {
+        movieDAO=database.getMovieDAO();
+        movies=new ArrayList<>();
+        movies.addAll(movieDAO.getNowUpMovies(movieDAO.getFavouriteMovies()));
+        return movies;
+    }
+    public List<Shows> getFavouriteShows()
+    {
+        showDAO=database.getShowDAO();
+        shows=new ArrayList<>();
+        shows.addAll(showDAO.getTopPopShows(showDAO.getFavouriteShows()));
+        return shows;
+    }
 
 }
