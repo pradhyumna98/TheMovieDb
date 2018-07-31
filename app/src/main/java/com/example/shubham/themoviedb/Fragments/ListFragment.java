@@ -3,13 +3,16 @@ package com.example.shubham.themoviedb.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -62,6 +65,7 @@ ShowMovieAdapter moviesAdapter;
 List<Shows> shows=new ArrayList<>();
 ShowsTvAdapter showsAdapter;
 String type,fragment;
+ConstraintLayout constraintLayout;
 Bundle bundle;
 LoadList listLoader;
 int page=1;
@@ -81,10 +85,13 @@ ShowDAO showDAO;
         RV=output.findViewById(R.id.RecyclerView);
         progressBar=output.findViewById(R.id.progressBar);
         tv=output.findViewById(R.id.textView);
+        constraintLayout=output.findViewById(R.id.linearLayout);
         btnViewAll=output.findViewById(R.id.button);
         database=Database.getInstance(getContext());
         movieDAO=database.getMovieDAO();
         showDAO=database.getShowDAO();
+        LinearSnapHelper snapHelper=new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(RV);
         RV.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         bundle=getArguments();
         listLoader=new LoadList(bundle,getContext(),this);
@@ -122,6 +129,11 @@ ShowDAO showDAO;
             {
                 tv.setText("Similar");
             }
+            else if(type.equals(Constants.MOVIE_CREDITS))
+            {
+                tv.setText("Movies Credits");
+                constraintLayout.removeView(btnViewAll);
+            }
             if(movies.size()>0)
             {
                 RV.setVisibility(View.VISIBLE);
@@ -148,7 +160,7 @@ ShowDAO showDAO;
                         movieDAO.insertFavouriteMovie(favouriteMovies);
                     }
                     else {
-                        movieDAO.deleteMovies(movie);
+                        movieDAO.deleteFavouriteMovies(favouriteMovies.getMovieId());
                     }
                 }
             });
@@ -177,6 +189,11 @@ ShowDAO showDAO;
             {
                 tv.setText("Similar");
             }
+            else if(type.equals(Constants.SHOWS_CREDITS))
+            {
+                tv.setText("Shows Credits");
+                constraintLayout.removeView(btnViewAll);
+            }
             if(shows.size()>0)
             {
                 RV.setVisibility(View.VISIBLE);
@@ -193,18 +210,18 @@ ShowDAO showDAO;
 
                 @Override
                 public void onButtonClicked(int position,Boolean checked,SearchItems items) {
-                    Shows shows= (Shows) items;
+                    Shows show= (Shows) items;
                     FavouriteShows favouriteShows=new FavouriteShows();
-                    favouriteShows.setShowId(shows.getId());
+                    favouriteShows.setShowId(show.getId());
                     if(checked)
                     {
-                        showDAO.insertShow(shows);
+                        showDAO.insertShow(show);
                         showDAO.insertFavouriteShow(favouriteShows);
 
                     }
                     else
                     {
-                        showDAO.deleteShows(shows);
+                        showDAO.deleteFavouriteShows(favouriteShows.getShowId());
                     }
                 }
             });

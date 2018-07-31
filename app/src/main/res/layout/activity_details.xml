@@ -40,7 +40,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp">
 
-
+                <ToggleButton
+                    android:id="@+id/toggleButton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/button_favourite"
+                    android:checked="false"
+                    android:focusable="true"
+                    android:text=""
+                    android:textOff=""
+                    android:textOn=""
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
                 <android.support.constraint.Guideline
                     android:id="@+id/guideline2"
                     android:layout_width="wrap_content"
@@ -86,6 +99,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/black"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <include layout="@layout/expandable_text_view" />

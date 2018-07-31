@@ -49,7 +49,7 @@ int page=1;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
         RV=findViewById(R.id.RecyclerViewSearch);
-        Intent intent=getIntent();
+        final Intent intent=getIntent();
         search=intent.getStringExtra(Constants.QUERY);
         manager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         listener=new EndlessRecyclerViewScrollListener(manager) {
@@ -120,7 +120,9 @@ int page=1;
 
             @Override
             public void onPeopleItemClicked(int position,People people) {
-
+                Intent intent1=new Intent(SearchResult.this,CastDetailsActivity.class);
+                intent1.putExtra(Constants.ID,(long)people.getId());
+                startActivity(intent1);
             }
         });
         RV.addOnScrollListener(listener);

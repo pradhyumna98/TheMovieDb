@@ -14,6 +14,7 @@ import com.example.shubham.themoviedb.Database.MovieDAO;
 import com.example.shubham.themoviedb.Database.ShowDAO;
 import com.example.shubham.themoviedb.Networking.ApiClient;
 import com.example.shubham.themoviedb.entities.Movies.Movie;
+import com.example.shubham.themoviedb.entities.Movies.MovieCredits;
 import com.example.shubham.themoviedb.entities.Movies.NowShowingMovie;
 import com.example.shubham.themoviedb.entities.Movies.PopularMovie;
 import com.example.shubham.themoviedb.entities.Movies.SimilarMovie;
@@ -23,6 +24,7 @@ import com.example.shubham.themoviedb.entities.TvShows.AirTodayShows;
 import com.example.shubham.themoviedb.entities.TvShows.OnAirShows;
 import com.example.shubham.themoviedb.entities.TvShows.PopularShows;
 import com.example.shubham.themoviedb.entities.TvShows.Shows;
+import com.example.shubham.themoviedb.entities.TvShows.ShowsCredits;
 import com.example.shubham.themoviedb.entities.TvShows.SimilarShow;
 import com.example.shubham.themoviedb.entities.TvShows.TopRatedShows;
 
@@ -227,6 +229,23 @@ public class LoadList {
                 }
             });
         }
+        else if(type.equals(Constants.MOVIE_CREDITS))
+        {
+            Call<MovieCredits> movieCreditsCall=ApiClient.getMovieDBService().getMovieCredits(id,Constants.API_KEY);
+            movieCreditsCall.enqueue(new Callback<MovieCredits>() {
+                @Override
+                public void onResponse(Call<MovieCredits> call, Response<MovieCredits> response) {
+                    MovieCredits movieCredits=response.body();
+                    movies.addAll(movieCredits.getCast());
+                    listener.onMoviesListLoaded(movies);
+                }
+
+                @Override
+                public void onFailure(Call<MovieCredits> call, Throwable t) {
+
+                }
+            });
+        }
         return movies;
 
     }
@@ -399,6 +418,23 @@ public class LoadList {
 
                 @Override
                 public void onFailure(Call<SimilarShow> call, Throwable t) {
+
+                }
+            });
+        }
+        else if(type.equals(Constants.SHOWS_CREDITS))
+        {
+            Call<ShowsCredits> showsCreditsCall=ApiClient.getMovieDBService().getShowCredits(id,Constants.API_KEY);
+            showsCreditsCall.enqueue(new Callback<ShowsCredits>() {
+                @Override
+                public void onResponse(Call<ShowsCredits> call, Response<ShowsCredits> response) {
+                    ShowsCredits credits=response.body();
+                    shows.addAll(credits.getCast());
+                    listener.onShowsListLoaded(shows);
+                }
+
+                @Override
+                public void onFailure(Call<ShowsCredits> call, Throwable t) {
 
                 }
             });

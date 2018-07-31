@@ -122,7 +122,7 @@ public class GridFragment extends Fragment implements ListLoadListener {
                         movieDAO.insertFavouriteMovie(favouriteMovies);
                     }
                     else {
-                        movieDAO.deleteMovies(movie);
+                        movieDAO.deleteFavouriteMovies(favouriteMovies.getMovieId());
                     }
                 }
             });
@@ -142,18 +142,18 @@ public class GridFragment extends Fragment implements ListLoadListener {
 
                 @Override
                 public void onButtonClicked(int position,Boolean checked,SearchItems items) {
-                    Shows shows= (Shows) items;
+                    Shows show= (Shows) items;
                     FavouriteShows favouriteShows=new FavouriteShows();
-                    favouriteShows.setShowId(shows.getId());
+                    favouriteShows.setShowId(show.getId());
                     if(checked)
                     {
-                        showDAO.insertShow(shows);
+                        showDAO.insertShow(show);
                         showDAO.insertFavouriteShow(favouriteShows);
 
                     }
                     else
                     {
-                        showDAO.deleteShows(shows);
+                        showDAO.deleteFavouriteShows(favouriteShows.getShowId());
                     }
                 }
             });
@@ -184,7 +184,7 @@ public class GridFragment extends Fragment implements ListLoadListener {
                             movieDAO.insertFavouriteMovie(favouriteMovies);
                         }
                         else {
-                            movieDAO.deleteMovies(movie);
+                            movieDAO.deleteFavouriteMovies(favouriteMovies.getMovieId());
                         }
                     }
                 });
@@ -204,18 +204,18 @@ public class GridFragment extends Fragment implements ListLoadListener {
 
                     @Override
                     public void onButtonClicked(int position,Boolean checked,SearchItems items) {
-                        Shows shows= (Shows) items;
+                        Shows show= (Shows) items;
                         FavouriteShows favouriteShows=new FavouriteShows();
-                        favouriteShows.setShowId(shows.getId());
+                        favouriteShows.setShowId(show.getId());
                         if(checked)
                         {
-                            showDAO.insertShow(shows);
+                            showDAO.insertShow(show);
                             showDAO.insertFavouriteShow(favouriteShows);
 
                         }
                         else
                         {
-                            showDAO.deleteShows(shows);
+                            showDAO.deleteFavouriteShows(favouriteShows.getShowId());
                         }
                     }
                 });

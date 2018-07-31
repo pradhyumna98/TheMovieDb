@@ -49,7 +49,7 @@ public interface MovieDAO {
     void insertMovie(Movie movie);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFavouriteMovie(FavouriteMovies movie);
-    @Delete
-    void deleteMovies(Movie movie);
+    @Query("delete from FavouriteMovies where movieId=:id")
+    void deleteFavouriteMovies(long id);
 
 }

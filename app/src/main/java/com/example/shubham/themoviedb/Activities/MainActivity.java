@@ -65,14 +65,6 @@ ImageButton button;
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,Favourite.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -81,7 +73,16 @@ ImageButton button;
         return true;
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        if(id==R.id.action_favourites)
+        {
+            Intent intent=new Intent(MainActivity.this,Favourite.class);
+            startActivity(intent);
+        }
+        return true;
+    }
 
     @Override
     public void onMoviesFragmentInteraction() {

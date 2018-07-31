@@ -44,6 +44,10 @@ public class CastAdapter extends RecyclerView.Adapter<CastViewHolder> {
         holder.tvCharacterName.setText(peoplesList.get(position).getCharacter());
         if(peoplesList.get(position).getProfilePath()!=null)
             Picasso.get().load(Constants.IMAGE_URL+peoplesList.get(position).getProfilePath()).into(holder.profile);
+        else
+        {
+            Picasso.get().load(R.drawable.white_background).into(holder.profile);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

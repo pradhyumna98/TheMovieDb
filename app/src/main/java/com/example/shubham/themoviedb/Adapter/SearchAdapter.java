@@ -54,7 +54,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
                     holder.tvTitle.setText(movie.getTitle());
                     holder.tvType.setText("Movie");
                     holder.tvOverView.setText(movie.getOverview());
-                    Picasso.get().load(Constants.IMAGE_URL+movie.getPosterPath()).into(holder.poster);
+                    Picasso.get().load(Constants.IMAGE_URL+movie.getPosterPath()).fit().into(holder.poster);
                     if (!movie.getReleaseDate().equals(""))
                     {
                         String[] date=movie.getReleaseDate().split("-");
@@ -72,7 +72,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
                    holder.tvTitle.setText(show.getName());
                    holder.tvOverView.setText(show.getOverview());
                     holder.tvType.setText("TV Show");
-                   Picasso.get().load(Constants.IMAGE_URL+show.getPosterPath()).into(holder.poster);
+                   Picasso.get().load(Constants.IMAGE_URL+show.getPosterPath()).fit().into(holder.poster);
                    if (!show.getFirstAirDate().equals(""))
                     {
                       String[] date=show.getFirstAirDate().split("-");
@@ -90,7 +90,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
                     holder.tvType.setText("People");
                     holder.tvOverView.setText("");
                     holder.tvDate.setText("");
-                    Picasso.get().load(Constants.IMAGE_URL+people.getProfilePath()).into(holder.poster);
+                    Picasso.get().load(Constants.IMAGE_URL+people.getProfilePath()).fit().into(holder.poster);
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

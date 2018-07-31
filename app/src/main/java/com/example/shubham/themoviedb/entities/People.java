@@ -14,7 +14,7 @@ public class People implements SearchItems {
     private String character;
     @SerializedName("credit_id")
     private String creditId;
-
+    String birthday;
     private Long gender;
     private Long id;
     private String name;
@@ -24,6 +24,33 @@ public class People implements SearchItems {
     @SerializedName("media_type")
     private String mediaType;
     int TYPE=2;
+    @SerializedName("place_of_birth")
+    String placeOfBirth;
+    String biography;
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public String getPlaceOfBirth() {
+        return placeOfBirth;
+    }
+
+    public void setPlaceOfBirth(String placeOfBirth) {
+        this.placeOfBirth = placeOfBirth;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
 
     public int getTYPE() {
         return TYPE;

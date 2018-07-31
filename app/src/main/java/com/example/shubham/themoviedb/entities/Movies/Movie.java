@@ -4,8 +4,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.example.shubham.themoviedb.entities.Credits;
 import com.example.shubham.themoviedb.entities.Genre;
 import com.example.shubham.themoviedb.entities.SearchItems;
+import com.example.shubham.themoviedb.entities.VideoResult;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -47,6 +49,26 @@ public class Movie implements SearchItems {
     private String mediaType;
     @Ignore
     int TYPE=0;
+    @Ignore
+    VideoResult videos;
+    @Ignore
+    Credits credits;
+
+    public VideoResult getVideos() {
+        return videos;
+    }
+
+    public void setVideos(VideoResult videos) {
+        this.videos = videos;
+    }
+
+    public Credits getCredits() {
+        return credits;
+    }
+
+    public void setCredits(Credits credits) {
+        this.credits = credits;
+    }
 
     public int getTYPE() {
         return TYPE;

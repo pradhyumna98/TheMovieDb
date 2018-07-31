@@ -51,6 +51,6 @@ public interface ShowDAO {
     void insertShow(Shows show);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFavouriteShow(FavouriteShows show);
-    @Delete
-    void deleteShows(Shows shows);
+    @Query("delete from FavouriteShows where showId=:id")
+    void deleteFavouriteShows(long id);
 }

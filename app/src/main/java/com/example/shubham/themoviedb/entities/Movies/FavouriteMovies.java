@@ -9,7 +9,7 @@ import com.example.shubham.themoviedb.entities.Movies.Movie;
 /**
  * Created by shubham on 7/29/2018.
  */
-@Entity(foreignKeys = {@ForeignKey(entity = Movie.class,parentColumns = "id",childColumns = "movieId",onDelete = ForeignKey.CASCADE)})
+@Entity(foreignKeys = {@ForeignKey(entity = Movie.class,parentColumns = "id",childColumns = "movieId")})
 public class FavouriteMovies {
     @PrimaryKey(autoGenerate = true)
     int id;

@@ -26,6 +26,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:text="Now Showing"
+        android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintStart_toStartOf="parent"
