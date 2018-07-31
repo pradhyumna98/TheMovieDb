@@ -141,44 +141,7 @@ int[] favouriteIds;
             {
                 toggleButton.setChecked(false);
             }
-            Call<Credits> creditsCall=ApiClient.getMovieDBService().getMovieCreditDetails(id,Constants.API_KEY);
-            creditsCall.enqueue(new Callback<Credits>() {
-                @Override
-                public void onResponse(Call<Credits> call, Response<Credits> response) {
-                    peoples.clear();
-                    peoples.addAll(response.body().getCast());
-                    adapter.notifyDataSetChanged();
-                    recyclerView.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.INVISIBLE);
-                }
 
-                @Override
-                public void onFailure(Call<Credits> call, Throwable t) {
-
-                }
-            });
-            Call<VideoResult> videoResultCall=ApiClient.getMovieDBService().getVideoMovieDetails(id,Constants.API_KEY);
-            videoResultCall.enqueue(new Callback<VideoResult>() {
-                @Override
-                public void onResponse(Call<VideoResult> call, Response<VideoResult> response) {
-                    videos.clear();
-                    videos.addAll(response.body().getResults());
-//                    if(response.body().getResults().size()>0){
-//                    for (int i = 0; i <response.body().getResults().size(); i++) {
-//                    Video video=response.body().getResults().get(i);
-//                    if(video.getSite()=="YouTube")
-//                    videos.add(video);
-//                    }}
-                    adapter1.notifyDataSetChanged();
-                    recyclerView1.setVisibility(View.VISIBLE);
-                    progressBar1.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onFailure(Call<VideoResult> call, Throwable t) {
-
-                }
-            });
             Call<Movie> movieCall= ApiClient.getMovieDBService().getMovieDetails(id,Constants.API_KEY,Constants.APPEND);
             movieCall.enqueue(new Callback<Movie>() {
                 @Override
@@ -213,8 +176,25 @@ int[] favouriteIds;
                             else {
                                 movieDAO.deleteFavouriteMovies(favouriteMovies.getMovieId());
                             }
+
                         }
                     });
+                    videos.clear();
+                    videos.addAll(response.body().getVideos().getResults());
+//                    if(response.body().getResults().size()>0){
+//                    for (int i = 0; i <response.body().getResults().size(); i++) {
+//                    Video video=response.body().getResults().get(i);
+//                    if(video.getSite()=="YouTube")
+//                    videos.add(video);
+//                    }}
+                    adapter1.notifyDataSetChanged();
+                    recyclerView1.setVisibility(View.VISIBLE);
+                    progressBar1.setVisibility(View.INVISIBLE);
+                    peoples.clear();
+                    peoples.addAll(response.body().getCredits().getCast());
+                    adapter.notifyDataSetChanged();
+                    recyclerView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -248,44 +228,6 @@ int[] favouriteIds;
             {
                 toggleButton.setChecked(false);
             }
-            Call<Credits> creditsCall=ApiClient.getMovieDBService().getShowCreditDetails(id,Constants.API_KEY);
-            creditsCall.enqueue(new Callback<Credits>() {
-                @Override
-                public void onResponse(Call<Credits> call, Response<Credits> response) {
-                    peoples.clear();
-                    peoples.addAll(response.body().getCast());
-                    adapter.notifyDataSetChanged();
-                    recyclerView.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onFailure(Call<Credits> call, Throwable t) {
-
-                }
-            });
-            Call<VideoResult> videoResultCall=ApiClient.getMovieDBService().getVideoShowDetails(id,Constants.API_KEY);
-            videoResultCall.enqueue(new Callback<VideoResult>() {
-                @Override
-                public void onResponse(Call<VideoResult> call, Response<VideoResult> response) {
-                    videos.clear();
-                    videos.addAll(response.body().getResults());
-//                    if(response.body().getResults().size()>0){
-//                        for (int i = 0; i <response.body().getResults().size(); i++) {
-//                            Video video=response.body().getResults().get(i);
-//                            if(video.getSite()=="YouTube")
-//                                videos.add(video);
-//                        }}
-                    adapter1.notifyDataSetChanged();
-                    recyclerView1.setVisibility(View.VISIBLE);
-                    progressBar1.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onFailure(Call<VideoResult> call, Throwable t) {
-
-                }
-            });
             Call<Shows> showsCall=ApiClient.getMovieDBService().getShowDetails(id,Constants.API_KEY,Constants.APPEND);
             showsCall.enqueue(new Callback<Shows>() {
                 @Override
@@ -322,6 +264,22 @@ int[] favouriteIds;
                             }
                         }
                     });
+                    videos.clear();
+                    videos.addAll(response.body().getVideos().getResults());
+//                    if(response.body().getResults().size()>0){
+//                        for (int i = 0; i <response.body().getResults().size(); i++) {
+//                            Video video=response.body().getResults().get(i);
+//                            if(video.getSite()=="YouTube")
+//                                videos.add(video);
+//                        }}
+                    adapter1.notifyDataSetChanged();
+                    recyclerView1.setVisibility(View.VISIBLE);
+                    progressBar1.setVisibility(View.INVISIBLE);
+                    peoples.clear();
+                    peoples.addAll(response.body().getCredits().getCast());
+                    adapter.notifyDataSetChanged();
+                    recyclerView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
